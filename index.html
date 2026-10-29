@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Entre preguntas y certezas: una introducción cute a la epistemología." />
+  <title>Entre preguntas y certezas | Epistemología</title>
+  <style>
+    :root {
+      --cream: #fffaf5;
+      --paper: #fffdfb;
+      --pink: #f3b8ca;
+      --pink-dark: #cc6d8e;
+      --rose: #9b536b;
+      --lilac: #ded4f5;
+      --lavender-dark: #766aa1;
+      --peach: #ffd8bf;
+      --mint: #cdebe2;
+      --ink: #4d4248;
+      --muted: #806f77;
+      --line: #eadde1;
+      --shadow: 0 16px 40px rgba(163, 105, 126, .13);
+      --soft-shadow: 0 8px 20px rgba(163, 105, 126, .10);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 5% 12%, rgba(243,184,202,.28) 0 3px, transparent 4px),
+        radial-gradient(circle at 90% 32%, rgba(222,212,245,.45) 0 4px, transparent 5px),
+        var(--cream);
+      background-size: 36px 36px, 58px 58px, auto;
+      font-family: "Segoe UI", Avenir, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topline {
+      height: 7px;
+      background: linear-gradient(90deg, var(--pink-dark), var(--lilac), var(--peach), var(--pink));
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,250,245,.90);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(234,221,225,.75);
+    }
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      color: var(--rose);
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px 13px 13px 5px;
+      background: var(--pink);
+      box-shadow: 4px 4px 0 #ed9fba;
+      font-size: 21px;
+      transform: rotate(-4deg);
+    }
+    .nav-links { display: flex; align-items: center; gap: 7px; }
+    .nav-links a {
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .91rem;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+    .nav-links a:hover { background: var(--pink); color: var(--rose); transform: translateY(-1px); }
+    .menu-toggle { display: none; border: 0; background: transparent; color: var(--rose); font-size: 1.7rem; cursor: pointer; }
+
+    section { padding: 86px 0; position: relative; }
+    .hero { padding: 78px 0 75px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 60px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--rose);
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .eyebrow::before { content: "✦"; color: var(--pink-dark); font-size: 1.1rem; }
+    h1, h2, h3 { line-height: 1.12; margin: 0; }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; }
+    h1 { max-width: 660px; color: var(--rose); font-size: clamp(3.05rem, 7vw, 6.2rem); letter-spacing: -.055em; }
+    h2 { color: var(--rose); font-size: clamp(2.2rem, 4.4vw, 3.7rem); letter-spacing: -.035em; }
+    h3 { color: var(--rose); font-size: 1.35rem; }
+    .hero-copy p { max-width: 570px; color: var(--muted); font-size: 1.12rem; margin: 25px 0 30px; }
+    .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 20px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(155,83,107,.17); }
+    .btn-primary { color: white; background: var(--pink-dark); }
+    .btn-secondary { color: var(--rose); background: white; border: 1px solid var(--line); }
+    .hero-note { margin-top: 24px; color: var(--muted); font-size: .9rem; }
+    .hero-note strong { color: var(--rose); }
+
+    .hero-art { min-height: 430px; position: relative; display: grid; place-items: center; }
+    .orbit { width: min(430px, 88vw); aspect-ratio: 1; border-radius: 50%; border: 1px dashed rgba(155,83,107,.27); position: absolute; animation: float 7s ease-in-out infinite; }
+    .orbit::before, .orbit::after { content: "✦"; position: absolute; color: var(--pink-dark); font-size: 1.7rem; }
+    .orbit::before { top: 7%; left: 20%; }
+    .orbit::after { right: 8%; bottom: 18%; color: var(--lavender-dark); }
+    .journal {
+      width: min(340px, 72vw);
+      aspect-ratio: .78;
+      border-radius: 26px 34px 32px 18px;
+      background: linear-gradient(145deg, #fffdfc, #ffe9ee);
+      box-shadow: var(--shadow), inset 9px 0 0 rgba(204,109,142,.21);
+      transform: rotate(-6deg);
+      position: relative;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+    .journal::before { content: ""; position: absolute; inset: 20px 18px 20px 28px; border: 1px solid rgba(204,109,142,.22); border-radius: 16px; pointer-events: none; }
+    .journal-label { position: relative; color: var(--pink-dark); font-size: .75rem; letter-spacing: .15em; font-weight: 800; text-transform: uppercase; }
+    .journal h3 { position: relative; font-family: Georgia, serif; font-size: 2.3rem; color: var(--rose); }
+    .journal p { position: relative; color: var(--muted); font-size: .94rem; }
+    .journal-heart { position: absolute; right: 24px; top: 23px; font-size: 1.6rem; color: var(--pink-dark); }
+    .sticker { position: absolute; display: grid; place-items: center; width: 83px; height: 83px; border-radius: 50%; font-size: 2rem; box-shadow: var(--soft-shadow); }
+    .sticker-one { right: 2%; top: 10%; background: var(--lilac); transform: rotate(12deg); }
+    .sticker-two { left: 3%; bottom: 10%; background: var(--peach); transform: rotate(-12deg); }
+    .sticker-three { right: 10%; bottom: 2%; width: 58px; height: 58px; background: var(--mint); font-size: 1.4rem; }
+
+    .section-heading { max-width: 690px; margin-bottom: 36px; }
+    .section-heading p { color: var(--muted); margin: 18px 0 0; font-size: 1.04rem; }
+    .section-kicker { color: var(--pink-dark); font-size: .82rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px; }
+    .paper { background: rgba(255,253,251,.8); border: 1px solid rgba(234,221,225,.9); border-radius: var(--radius); box-shadow: var(--soft-shadow); }
+
+    .route { background: rgba(222,212,245,.28); }
+    .route-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 24px; align-items: stretch; }
+    .route-card { padding: 30px; }
+    .route-card.featured { background: linear-gradient(135deg, #fffdfb, #fff0f4); border: 1px solid #f1c5d2; }
+    .route-card h3 { display: flex; align-items: center; gap: 10px; }
+    .unit-number { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: white; background: var(--pink-dark); font-weight: 900; font-size: .9rem; }
+    .route-card p { color: var(--muted); }
+    .route-card ul { padding-left: 20px; color: var(--muted); }
+    .route-card li::marker { color: var(--pink-dark); }
+    .coming { min-height: 160px; display: flex; flex-direction: column; justify-content: center; background: rgba(255,255,255,.58); border: 1px dashed #cfc4df; }
+    .coming h3 { color: var(--lavender-dark); }
+    .coming .unit-number { background: var(--lavender-dark); }
+    .progress-wrap { margin-top: 25px; }
+    .progress-label { display: flex; justify-content: space-between; color: var(--muted); font-size: .86rem; font-weight: 700; margin-bottom: 7px; }
+    .progress { height: 10px; border-radius: 99px; background: #f1e9ed; overflow: hidden; }
+    .progress span { display: block; height: 100%; width: 25%; background: linear-gradient(90deg, var(--pink-dark), var(--lilac)); border-radius: inherit; }
+
+    .unit-intro { display: grid; grid-template-columns: .92fr 1.08fr; gap: 40px; align-items: center; }
+    .question-card { padding: 34px; background: linear-gradient(145deg, #fff4f7, #fffdfb); position: relative; overflow: hidden; }
+    .question-card::after { content: "?"; position: absolute; right: -8px; bottom: -34px; font: 11rem Georgia, serif; color: rgba(243,184,202,.34); }
+    .question-card p { position: relative; z-index: 1; font-family: Georgia, serif; font-size: 1.85rem; line-height: 1.25; color: var(--rose); margin: 0; }
+    .objectives { padding: 5px 0 5px 10px; }
+    .objectives h3 { margin-bottom: 18px; }
+    .objective { display: flex; align-items: flex-start; gap: 12px; margin: 13px 0; color: var(--muted); }
+    .objective span { display: inline-grid; place-items: center; flex: 0 0 29px; width: 29px; height: 29px; border-radius: 50%; background: var(--mint); color: #4d8a78; font-weight: 900; font-size: .8rem; }
+
+    .concepts { background: #fff6f7; }
+    .concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .concept-card { padding: 23px; min-height: 225px; position: relative; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+    .concept-card:hover { transform: translateY(-5px) rotate(.4deg); box-shadow: var(--shadow); }
+    .concept-card:nth-child(1) { background: #fff0f4; }
+    .concept-card:nth-child(2) { background: #fff4e9; }
+    .concept-card:nth-child(3) { background: #f3effc; }
+    .concept-card:nth-child(4) { background: #ebf8f3; }
+    .concept-card:nth-child(5) { background: #fff8df; }
+    .concept-card:nth-child(6) { background: #f3f0ff; }
+    .concept-icon { font-size: 1.65rem; margin-bottom: 12px; }
+    .concept-card p { color: var(--muted); font-size: .93rem; }
+    .learn-more { color: var(--rose); border: 0; background: transparent; padding: 0; font-weight: 800; cursor: pointer; }
+    .card-detail { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .concept-card.open .card-detail { max-height: 280px; }
+    .concept-card.open .learn-more::after { content: "  ↑"; }
+    .learn-more::after { content: "  ↓"; }
+
+    .timeline { position: relative; display: grid; gap: 17px; margin-top: 28px; }
+    .timeline::before { content: ""; position: absolute; left: 23px; top: 25px; bottom: 25px; width: 2px; background: #edc1ce; }
+    .timeline-item { display: grid; grid-template-columns: 48px 1fr; gap: 16px; position: relative; align-items: start; }
+    .timeline-dot { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; z-index: 1; color: white; font-weight: 900; background: var(--pink-dark); box-shadow: 0 0 0 7px var(--cream); }
+    .timeline-content { padding: 19px 22px; background: rgba(255,253,251,.82); border: 1px solid var(--line); border-radius: 18px; }
+    .timeline-content h3 { font-size: 1.1rem; }
+    .timeline-content p { color: var(--muted); margin: 7px 0 0; font-size: .94rem; }
+
+    .process { background: linear-gradient(135deg, rgba(205,235,226,.42), rgba(255,247,228,.42)); }
+    .process-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 29px; }
+    .step { padding: 19px 14px; text-align: center; background: rgba(255,255,255,.78); border: 1px solid rgba(255,255,255,.9); border-radius: 18px; position: relative; }
+    .step:not(:last-child)::after { content: "→"; position: absolute; right: -17px; top: 38px; color: var(--pink-dark); font-weight: 900; z-index: 2; }
+    .step-num { width: 34px; height: 34px; display: grid; place-items: center; margin: 0 auto 12px; border-radius: 50%; color: white; background: var(--rose); font-weight: 900; }
+    .step h3 { font-size: 1rem; }
+    .step p { color: var(--muted); font-size: .83rem; margin: 8px 0 0; }
+
+    .subject-object { display: grid; grid-template-columns: 1fr .55fr 1fr; gap: 20px; align-items: center; }
+    .person-card { padding: 29px; min-height: 215px; }
+    .person-card.subject { background: #fff0f4; }
+    .person-card.object { background: #f0edfb; }
+    .person-card .big-icon { font-size: 2.4rem; margin-bottom: 10px; }
+    .person-card p { color: var(--muted); }
+    .relation { text-align: center; color: var(--pink-dark); font-size: 2.4rem; font-weight: 900; }
+    .relation small { display: block; color: var(--muted); font-size: .77rem; font-weight: 700; line-height: 1.25; }
+    .example { grid-column: 1 / -1; padding: 22px 26px; background: var(--mint); border-radius: 20px; color: #4c766d; }
+    .example strong { color: #3e675e; }
+
+    .philosophers { background: #fff6f7; }
+    .philosopher-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+    .philosopher { padding: 23px 18px; background: rgba(255,255,255,.85); border: 1px solid var(--line); border-radius: 20px; transition: transform .2s ease; }
+    .philosopher:hover { transform: translateY(-4px); }
+    .portrait { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 18px 18px 18px 6px; background: var(--lilac); font-size: 1.65rem; margin-bottom: 14px; }
+    .philosopher:nth-child(even) .portrait { background: var(--peach); }
+    .philosopher h3 { font-size: 1.08rem; }
+    .philosopher .era { color: var(--pink-dark); font-size: .76rem; font-weight: 800; }
+    .philosopher p { color: var(--muted); font-size: .87rem; margin-bottom: 0; }
+
+    .activities { background: rgba(222,212,245,.25); }
+    .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .activity-card { padding: 27px; }
+    .activity-card h3 { display: flex; align-items: center; gap: 9px; }
+    .activity-card p { color: var(--muted); }
+    .tag { display: inline-block; margin: 2px 3px 5px 0; padding: 5px 9px; border-radius: 999px; background: #fff0f4; color: var(--rose); font-size: .78rem; font-weight: 800; }
+
+    .word-search { display: grid; grid-template-columns: 1fr 1.13fr; gap: 18px; align-items: center; }
+    .word-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; max-width: 340px; margin: 0 auto; }
+    .letter { aspect-ratio: 1; display: grid; place-items: center; border: 0; border-radius: 7px; background: #fff7f8; color: var(--rose); font-size: .83rem; font-weight: 800; cursor: pointer; transition: .15s ease; }
+    .letter:hover, .letter.selected { background: var(--pink); color: white; transform: scale(1.07); }
+    .letter.correct { background: #9dceb9; color: white; }
+    .word-list { padding-left: 18px; color: var(--muted); columns: 2; font-size: .9rem; }
+    .word-list li.found { text-decoration: line-through; color: #67a18d; font-weight: 800; }
+
+    .quiz { grid-column: 1 / -1; background: linear-gradient(145deg, #fffdfb, #fff2ed); }
+    .quiz-question { font-size: 1.14rem; color: var(--rose); font-weight: 800; margin-bottom: 14px; }
+    .answers { display: grid; gap: 9px; }
+    .answer { text-align: left; padding: 12px 15px; background: white; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); cursor: pointer; transition: .18s ease; }
+    .answer:hover { border-color: var(--pink-dark); background: #fff8fa; }
+    .answer.right { background: #e5f5ee; border-color: #9dceb9; color: #447868; }
+    .answer.wrong { background: #fff0f0; border-color: #e4a6ae; color: #a05461; }
+    .quiz-feedback { min-height: 25px; margin-top: 12px; color: var(--rose); font-weight: 800; }
+    .quiz-controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; }
+    .quiz-count { color: var(--muted); font-size: .88rem; font-weight: 700; }
+
+    .reflection { display: grid; grid-template-columns: .85fr 1.15fr; gap: 32px; align-items: center; }
+    .reflection-copy p { color: var(--muted); }
+    .reflection-note { padding: 32px; background: #fff4dc; transform: rotate(1.5deg); border: 1px solid #f3dfad; box-shadow: var(--soft-shadow); }
+    .reflection-note h3 { color: #a87b3d; }
+    .reflection-note label { display: block; color: #8d7049; font-size: .88rem; font-weight: 800; margin-top: 15px; }
+    textarea { width: 100%; min-height: 96px; resize: vertical; border: 1px solid #ecd59f; border-radius: 13px; padding: 12px; margin-top: 6px; color: var(--ink); background: rgba(255,255,255,.72); outline: none; }
+    textarea:focus { border-color: var(--pink-dark); box-shadow: 0 0 0 3px rgba(243,184,202,.32); }
+
+    footer { padding: 34px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer-inner strong { color: var(--rose); }
+    .back-top { color: var(--rose); font-weight: 800; }
+
+    .toast { position: fixed; left: 50%; bottom: 25px; z-index: 30; transform: translate(-50%, 130px); padding: 13px 18px; border-radius: 999px; background: var(--rose); color: white; box-shadow: var(--shadow); transition: .3s ease; font-weight: 800; }
+    .toast.show { transform: translate(-50%, 0); }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-9px) rotate(2deg); } }
+
+    @media (max-width: 950px) {
+      .hero-grid, .route-grid, .unit-intro, .reflection { grid-template-columns: 1fr; }
+      .hero-art { min-height: 390px; }
+      .process-grid { grid-template-columns: repeat(3, 1fr); }
+      .step:nth-child(3)::after, .step:nth-child(6)::after { display: none; }
+      .philosopher-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .container { width: min(100% - 28px, 560px); }
+      section { padding: 63px 0; }
+      .nav { min-height: 67px; }
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 67px; left: 0; right: 0; padding: 12px 14px 17px; flex-direction: column; align-items: stretch; background: rgba(255,250,245,.97); border-bottom: 1px solid var(--line); box-shadow: var(--soft-shadow); }
+      .nav-links.open { display: flex; }
+      .nav-links a { text-align: center; }
+      .brand { font-size: .9rem; }
+      .hero { padding-top: 54px; }
+      .hero-art { min-height: 330px; }
+      .journal { width: 260px; padding: 30px 24px; }
+      .journal h3 { font-size: 1.8rem; }
+      .sticker { transform: scale(.8) rotate(8deg); }
+      .concept-grid, .activity-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .step:not(:last-child)::after { display: none; }
+      .subject-object { grid-template-columns: 1fr; }
+      .relation { transform: rotate(90deg); height: 40px; }
+      .relation small { transform: rotate(-90deg); margin-top: -28px; }
+      .philosopher-grid { grid-template-columns: repeat(2, 1fr); }
+      .word-search { grid-template-columns: 1fr; }
+      .quiz { grid-column: auto; }
+    }
+    @media (max-width: 430px) {
+      h1 { font-size: 3.15rem; }
+      .philosopher-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .word-grid { max-width: 270px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header>
+    <nav class="nav container" aria-label="Navegación principal">
+      <a class="brand" href="#inicio"><span class="brand-mark">✦</span> Entre preguntas y certezas</a>
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      <div class="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#programa">Programa</a>
+        <a href="#unidad">Unidad 1</a>
+        <a href="#filosofos">Filósofos</a>
+        <a href="#actividades">Actividades</a>
+        <a href="#reflexion">Cierre</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Diario de una mente curiosa</div>
+          <h1>Entre preguntas y certezas</h1>
+          <p>Un pequeño viaje cute por la epistemología: ese lugar donde las dudas se convierten en ideas, y las ideas empiezan a buscar razones.</p>
+          <div class="button-row">
+            <a class="btn btn-primary" href="#unidad">Comenzar el viaje <span>→</span></a>
+            <a class="btn btn-secondary" href="#actividades">Ir a actividades ✦</a>
+          </div>
+          <div class="hero-note"><strong>Pregunta para empezar:</strong> ¿cómo sabes que algo es verdadero?</div>
+        </div>
+        <div class="hero-art" aria-label="Ilustración decorativa de un diario sobre epistemología">
+          <div class="orbit"></div>
+          <div class="journal">
+            <span class="journal-heart">♡</span>
+            <span class="journal-label">Notas de epistemología</span>
+            <h3>Preguntar también es aprender.</h3>
+            <p>Observa · duda · investiga · comprende</p>
+          </div>
+          <div class="sticker sticker-one">🔎</div>
+          <div class="sticker sticker-two">📚</div>
+          <div class="sticker sticker-three">✿</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="route" id="programa">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">El mapa de nuestro viaje</div>
+          <h2>Un curso para mentes curiosas</h2>
+          <p>La ruta comienza con una pregunta sencilla: ¿de dónde viene todo aquello que creemos saber?</p>
+        </div>
+        <div class="route-grid">
+          <article class="paper route-card featured">
+            <h3><span class="unit-number">01</span> Origen del conocimiento</h3>
+            <p>En esta unidad descubriremos las ideas principales que explican cómo surge y cómo se construye el conocimiento.</p>
+            <ul>
+              <li>Qué es la epistemología.</li>
+              <li>Qué entendemos por conocimiento.</li>
+              <li>Razón, experiencia y cultura.</li>
+              <li>El sujeto y el objeto del conocimiento.</li>
+              <li>Filósofos que cambiaron la conversación.</li>
+            </ul>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Ruta iniciada</span><span>1 de 4</span></div>
+              <div class="progress"><span></span></div>
+            </div>
+          </article>
+          <article class="paper route-card coming">
+            <h3><span class="unit-number">✦</span> Próximamente</h3>
+            <p>Las siguientes unidades aparecerán aquí cuando la ruta siga creciendo.</p>
+            <a class="btn btn-secondary" href="#unidad">Explorar la Unidad 1</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="unidad">
+      <div class="container">
+        <div class="unit-intro">
+          <div class="question-card paper">
+            <div class="section-kicker">Unidad 01</div>
+            <p>“¿Cómo sabes que algo es verdadero?”</p>
+          </div>
+          <div class="objectives">
+            <div class="section-kicker">Antes de abrir los libros</div>
+            <h2>Origen del conocimiento</h2>
+            <p style="color:var(--muted);">Conocer parece algo cotidiano, pero detrás de cada idea hay preguntas, experiencias y decisiones. En esta unidad vamos a mirar ese proceso con más atención.</p>
+            <h3>Al terminar podrás…</h3>
+            <div class="objective"><span>01</span><div>Explicar qué es la epistemología y qué preguntas intenta responder.</div></div>
+            <div class="objective"><span>02</span><div>Diferenciar una opinión, una creencia y un conocimiento fundamentado.</div></div>
+            <div class="objective"><span>03</span><div>Relacionar la experiencia y la razón con la construcción del conocimiento.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="concepts" id="conceptos">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">Caja de conceptos</div>
+          <h2>Seis ideas para guardar en tu cuaderno</h2>
+          <p>Haz clic en cada tarjeta para descubrir una explicación breve.</p>
+        </div>
+        <div class="concept-grid">
+          <article class="paper concept-card">
+            <div class="concept-icon">🔎</div><h3>Epistemología</h3>
+            <p>La rama de la filosofía que estudia el conocimiento.</p>
+            <div class="card-detail"><p>Pregunta cómo surge, cómo se justifica, cuáles son sus límites y cuándo podemos considerar válida una idea. No pregunta solamente <em>qué</em> sabemos, sino <em>cómo llegamos a saberlo</em>.</p></div>
+            <button class="learn-more">Ver idea clave</button>
+          </article>
+          <article class="paper concept-card">
+            <div class="concept-icon">💭</div><h3>Conocimiento</h3>
+            <p>Comprender algo y poder explicar por qué pensamos de determinada manera.</p>
+            <div class="card-detail"><p>No es solo memorizar datos. También implica relacionar información, interpretarla y respaldarla mediante razones o evidencias.</p></div>
+            <button class="learn-more">Ver idea clave</button>
+          </article>
+          <article class="paper concept-card">
+            <div class="concept-icon">🌱</div><h3>Su origen</h3>
+            <p>Una conversación antigua entre la razón, la experiencia y la cultura.</p>
+            <div class="card-detail"><p>Algunas teorías dan mayor importancia a la razón; otras, a la experiencia. También aprendemos mediante el lenguaje, la convivencia y la historia.</p></div>
+            <button class="learn-more">Ver idea clave</button>
+          </article>
+          <article class="paper concept-card">
+            <div class="concept-icon">🧩</div><h3>Construcción</h3>
+            <p>Un proceso de observar, preguntar, investigar y revisar.</p>
+            <div class="card-detail"><p>El conocimiento no siempre se construye de forma lineal. Podemos equivocarnos, cambiar de opinión y volver a investigar cuando aparece nueva información.</p></div>
+            <button class="learn-more">Ver idea clave</button>
+          </article>
+          <article class="paper concept-card">
+            <div class="concept-icon">🪞</div><h3>Sujeto y objeto</h3>
+            <p>Quien conoce y aquello que intenta conocer.</p>
+            <div class="card-detail"><p>El sujeto observa, pregunta e interpreta. El objeto puede ser una idea, un fenómeno, una persona o una situación. El conocimiento nace de su relación.</p></div>
+            <button class="learn-more">Ver idea clave</button>
+          </article>
+          <article class="paper concept-card">
+            <div class="concept-icon">📜</div><h3>Filósofos</h3>
+            <p>Voces que hicieron preguntas distintas sobre el saber.</p>
+            <div class="card-detail"><p>Sócrates, Platón, Aristóteles, Descartes, Locke, Hume y Kant propusieron distintas formas de comprender el conocimiento.</p></div>
+            <button class="learn-more">Ver idea clave</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="origen">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">Una pequeña línea del tiempo</div>
+          <h2>¿De dónde nace el conocimiento?</h2>
+          <p>Estas son algunas respuestas que se han construido a lo largo de la historia.</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot">01</div><div class="timeline-content"><h3>Mitos y explicaciones tradicionales</h3><p>Las primeras sociedades explicaban el mundo a través de relatos, símbolos y creencias compartidas.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">02</div><div class="timeline-content"><h3>La llegada del logos</h3><p>En la antigua Grecia comenzó la búsqueda de explicaciones racionales y argumentadas sobre la realidad.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">03</div><div class="timeline-content"><h3>Racionalismo</h3><p>Defiende que la razón tiene un papel central para alcanzar conocimientos seguros.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">04</div><div class="timeline-content"><h3>Empirismo</h3><p>Resalta la experiencia y los sentidos como fuentes fundamentales para conocer.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">05</div><div class="timeline-content"><h3>Kant: una mirada integradora</h3><p>Planteó que el conocimiento necesita tanto aquello que recibimos por la experiencia como la forma en que nuestra mente lo organiza.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="proceso">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">De la duda a la comprensión</div>
+          <h2>Así construimos conocimiento</h2>
+          <p>Un recorrido sencillo para entender cómo una pregunta puede convertirse en una conclusión.</p>
+        </div>
+        <div class="process-grid">
+          <div class="step"><div class="step-num">1</div><h3>Observamos</h3><p>Notamos algo que llama nuestra atención.</p></div>
+          <div class="step"><div class="step-num">2</div><h3>Preguntamos</h3><p>Convertimos la curiosidad en una pregunta.</p></div>
+          <div class="step"><div class="step-num">3</div><h3>Buscamos</h3><p>Consultamos experiencias y fuentes.</p></div>
+          <div class="step"><div class="step-num">4</div><h3>Analizamos</h3><p>Comparamos la información.</p></div>
+          <div class="step"><div class="step-num">5</div><h3>Comprobamos</h3><p>Revisamos evidencias o hacemos pruebas.</p></div>
+          <div class="step"><div class="step-num">6</div><h3>Concluimos</h3><p>Construimos una idea que puede revisarse.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sujeto-objeto">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">Dos protagonistas</div>
+          <h2>Sujeto + objeto = relación de conocimiento</h2>
+        </div>
+        <div class="subject-object">
+          <article class="paper person-card subject"><div class="big-icon">🧠</div><h3>El sujeto</h3><p>Es la persona que conoce, observa, pregunta, interpreta y aprende.</p></article>
+          <div class="relation">→<small>observa<br>pregunta<br>interpreta</small></div>
+          <article class="paper person-card object"><div class="big-icon">🌿</div><h3>El objeto</h3><p>Es aquello que se intenta conocer: una idea, un fenómeno, una persona o una situación.</p></article>
+          <div class="example"><strong>Ejemplo:</strong> si observo una planta para descubrir por qué sus hojas están cambiando de color, yo soy el sujeto, la planta es el objeto y la investigación construye la relación de conocimiento.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="philosophers" id="filosofos">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">Pasaporte de filósofos</div>
+          <h2>Personas que hicieron preguntas enormes</h2>
+          <p>No todos respondieron igual, y justo por eso sus ideas siguen siendo interesantes.</p>
+        </div>
+        <div class="philosopher-grid">
+          <article class="philosopher"><div class="portrait">🏛️</div><span class="era">Antigua Grecia</span><h3>Sócrates</h3><p>Aprender comienza cuando reconocemos que no lo sabemos todo. Su método se basaba en preguntar.</p></article>
+          <article class="philosopher"><div class="portrait">✨</div><span class="era">Antigua Grecia</span><h3>Platón</h3><p>La razón ayuda a acercarnos a un conocimiento más profundo y estable.</p></article>
+          <article class="philosopher"><div class="portrait">🌿</div><span class="era">Antigua Grecia</span><h3>Aristóteles</h3><p>La observación y la experiencia son importantes para estudiar el mundo real.</p></article>
+          <article class="philosopher"><div class="portrait">🧭</div><span class="era">Siglo XVII</span><h3>René Descartes</h3><p>La duda metódica puede ayudarnos a buscar certezas usando la razón.</p></article>
+          <article class="philosopher"><div class="portrait">📖</div><span class="era">Siglo XVII</span><h3>John Locke</h3><p>La mente aprende a través de la experiencia; el contacto con el mundo es fundamental.</p></article>
+          <article class="philosopher"><div class="portrait">☁️</div><span class="era">Siglo XVIII</span><h3>David Hume</h3><p>Las impresiones, la experiencia y la costumbre influyen en aquello que creemos conocer.</p></article>
+          <article class="philosopher"><div class="portrait">⚖️</div><span class="era">Siglo XVIII</span><h3>Immanuel Kant</h3><p>El conocimiento combina lo que recibimos por los sentidos con la organización de la mente.</p></article>
+          <article class="philosopher"><div class="portrait">💌</div><span class="era">Tu turno</span><h3>¿Y tú?</h3><p>¿Qué pregunta le harías a uno de estos filósofos sobre el conocimiento?</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="activities" id="actividades">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">Laboratorio de ideas</div>
+          <h2>Aprende jugando</h2>
+          <p>La teoría también puede tener colores, pistas y un poquito de competencia.</p>
+        </div>
+        <div class="activity-grid">
+          <article class="paper activity-card">
+            <h3>🔤 Sopa de letras</h3>
+            <p>Selecciona las letras de una palabra en orden. Las palabras están escondidas de izquierda a derecha, de arriba abajo o en diagonal.</p>
+            <div class="word-search">
+              <div id="wordGrid" class="word-grid" aria-label="Sopa de letras"></div>
+              <div><strong style="color:var(--rose);">Palabras:</strong><ul id="wordList" class="word-list"></ul><button class="btn btn-secondary" id="checkWords">Comprobar</button></div>
+            </div>
+          </article>
+          <article class="paper activity-card">
+            <h3>🧩 Mini crucigrama</h3>
+            <p>Une cada palabra con su pista. Puedes escribir las respuestas en tu cuaderno o usar las palabras de la lista.</p>
+            <div>
+              <span class="tag">EPISTEMOLOGÍA</span><span class="tag">SUJETO</span><span class="tag">OBJETO</span><span class="tag">EMPIRISMO</span><span class="tag">RAZÓN</span><span class="tag">MÉTODO</span>
+            </div>
+            <ol style="color:var(--muted); padding-left:21px;">
+              <li>Rama de la filosofía que estudia el conocimiento.</li>
+              <li>Persona que conoce.</li>
+              <li>Lo que se intenta conocer.</li>
+              <li>Corriente que da importancia a la experiencia.</li>
+              <li>Capacidad que ayuda a pensar y argumentar.</li>
+              <li>Camino ordenado para investigar algo.</li>
+            </ol>
+            <button class="btn btn-secondary" id="showAnswers">Mostrar respuestas</button>
+            <p id="crosswordAnswers" style="display:none; color:var(--rose); font-weight:800;">1. Epistemología · 2. Sujeto · 3. Objeto · 4. Empirismo · 5. Razón · 6. Método</p>
+          </article>
+          <article class="paper activity-card quiz" id="quiz">
+            <h3>💗 Quiz: ¿qué tan curiosa es tu mente?</h3>
+            <p class="quiz-question" id="quizQuestion"></p>
+            <div class="answers" id="quizAnswers"></div>
+            <div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div>
+            <div class="quiz-controls"><span class="quiz-count" id="quizCount"></span><button class="btn btn-primary" id="nextQuestion" disabled>Siguiente →</button></div>
+          </article>
+          <article class="paper activity-card quiz" style="background:linear-gradient(145deg,#f0fbf6,#fffdfb);">
+            <h3>📱 Caso de la vida cotidiana</h3>
+            <p><strong>En redes aparece una publicación que afirma:</strong> “Tomar esta bebida mejora la memoria en una semana”.</p>
+            <p>Antes de creerla, piensa:</p>
+            <ul style="color:var(--muted);"><li>¿Qué evidencia buscarías?</li><li>¿Qué fuentes consultarías?</li><li>¿Cómo comprobarías la afirmación?</li></ul>
+            <button class="btn btn-secondary" id="caseButton">Ver una posible respuesta</button>
+            <p id="caseAnswer" style="display:none; color:#4d766c; font-weight:700;">Buscaría estudios o fuentes confiables, revisaría quién publicó la información y compararía la afirmación con otras investigaciones. Creer algo no es lo mismo que tener razones para aceptarlo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reflexion">
+      <div class="container reflection">
+        <div class="reflection-copy">
+          <div class="section-kicker">Última página de tu diario</div>
+          <h2>Lo que me llevo de esta unidad</h2>
+          <p>Una mente curiosa no es la que tiene todas las respuestas, sino la que sigue haciendo buenas preguntas.</p>
+          <p>Escribe una pequeña reflexión y guarda tus ideas. No hay una respuesta “perfecta”; lo importante es poder explicar lo que piensas.</p>
+        </div>
+        <div class="reflection-note">
+          <h3>Mi nota personal ✿</h3>
+          <label for="before">Antes pensaba que el conocimiento era…</label>
+          <textarea id="before" placeholder="Escribe aquí..."></textarea>
+          <label for="after">Ahora entiendo que…</label>
+          <textarea id="after" placeholder="Escribe aquí..."></textarea>
+          <button class="btn btn-primary" id="saveReflection">Guardar mi reflexión</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><strong>Entre preguntas y certezas</strong> · Unidad 1: Origen del conocimiento</div>
+      <a class="back-top" href="#inicio">Volver arriba ↑</a>
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    // Menú móvil
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', open);
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    // Tarjetas desplegables
+    document.querySelectorAll('.concept-card').forEach(card => {
+      card.querySelector('.learn-more').addEventListener('click', () => card.classList.toggle('open'));
+    });
+
+    // Toast
+    const toast = document.getElementById('toast');
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    // Sopa de letras funcional
+    const size = 12;
+    const wordPositions = {
+      EPISTEMOLOGIA: Array.from({length: 12}, (_, c) => [0, c]),
+      CONOCIMIENTO: Array.from({length: 12}, (_, c) => [1, c]),
+      EXPERIENCIA: Array.from({length: 11}, (_, c) => [2, c]),
+      SUJETO: Array.from({length: 6}, (_, r) => [r + 3, 11]),
+      OBJETO: Array.from({length: 6}, (_, r) => [r + 3, 10]),
+      RAZON: Array.from({length: 5}, (_, r) => [r + 3, 9]),
+      VERDAD: Array.from({length: 6}, (_, c) => [9, c]),
+      FILOSOFIA: Array.from({length: 9}, (_, c) => [10, c]),
+      METODO: Array.from({length: 6}, (_, r) => [r + 3, 8]),
+      DUDA: Array.from({length: 4}, (_, c) => [11, c])
+    };
+    const words = Object.keys(wordPositions);
+    const grid = Array.from({length: size}, () => Array(size).fill(''));
+    words.forEach(word => wordPositions[word].forEach(([r, c], i) => { grid[r][c] = word[i]; }));
+    const filler = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (let r = 0; r < size; r++) for (let c = 0; c < size; c++) if (!grid[r][c]) grid[r][c] = filler[(r * 7 + c * 11 + 3) % filler.length];
+    const gridEl = document.getElementById('wordGrid');
+    const listEl = document.getElementById('wordList');
+    const selected = new Set();
+    grid.forEach((row, r) => row.forEach((letter, c) => {
+      const button = document.createElement('button');
+      button.className = 'letter'; button.textContent = letter; button.dataset.cell = `${r}-${c}`; button.setAttribute('aria-label', `Fila ${r + 1}, columna ${c + 1}, letra ${letter}`);
+      button.addEventListener('click', () => { button.classList.toggle('selected'); selected.has(button.dataset.cell) ? selected.delete(button.dataset.cell) : selected.add(button.dataset.cell); });
+      gridEl.appendChild(button);
+    }));
+    words.forEach(word => { const li = document.createElement('li'); li.textContent = word; li.dataset.word = word; listEl.appendChild(li); });
+    document.getElementById('checkWords').addEventListener('click', () => {
+      const found = words.filter(word => wordPositions[word].every(([r,c]) => selected.has(`${r}-${c}`)));
+      found.forEach(word => document.querySelector(`[data-word="${word}"]`).classList.add('found'));
+      if (found.length === words.length) showToast('¡Encontraste todas las palabras! ✨');
+      else showToast(`Encontraste ${found.length} de ${words.length}. Sigue buscando ✦`);
+    });
+
+    // Crucigrama: respuestas
+    document.getElementById('showAnswers').addEventListener('click', (event) => {
+      const answer = document.getElementById('crosswordAnswers');
+      const visible = answer.style.display !== 'none';
+      answer.style.display = visible ? 'none' : 'block';
+      event.currentTarget.textContent = visible ? 'Mostrar respuestas' : 'Ocultar respuestas';
+    });
+
+    // Quiz
+    const quizData = [
+      { q: '¿Qué estudia principalmente la epistemología?', a: ['La belleza', 'El conocimiento', 'La economía', 'La astronomía'], correct: 1 },
+      { q: '¿Quién es el sujeto del conocimiento?', a: ['Lo que se observa', 'La persona que conoce', 'Una teoría', 'Una respuesta'], correct: 1 },
+      { q: '¿Qué corriente destaca la importancia de la experiencia?', a: ['Empirismo', 'Racionalismo', 'Escepticismo', 'Idealismo'], correct: 0 },
+      { q: '¿Qué se relaciona con Descartes?', a: ['La duda metódica', 'La clasificación de plantas', 'El aprendizaje por imitación', 'La memoria colectiva'], correct: 0 },
+      { q: '¿Qué elementos pueden participar en la construcción del conocimiento?', a: ['La suerte y la moda', 'Solo la memoria', 'La experiencia y la razón', 'Solo las opiniones'], correct: 2 }
+    ];
+    let quizIndex = 0, score = 0, answered = false;
+    const questionEl = document.getElementById('quizQuestion');
+    const answersEl = document.getElementById('quizAnswers');
+    const feedbackEl = document.getElementById('quizFeedback');
+    const countEl = document.getElementById('quizCount');
+    const nextBtn = document.getElementById('nextQuestion');
+    function renderQuiz() {
+      const item = quizData[quizIndex]; answered = false; nextBtn.disabled = true; feedbackEl.textContent = '';
+      questionEl.textContent = item.q; countEl.textContent = `Pregunta ${quizIndex + 1} de ${quizData.length}`; answersEl.innerHTML = '';
+      item.a.forEach((answer, index) => { const btn = document.createElement('button'); btn.className = 'answer'; btn.textContent = answer; btn.addEventListener('click', () => answerQuiz(btn, index)); answersEl.appendChild(btn); });
+    }
+    function answerQuiz(button, index) {
+      if (answered) return; answered = true; nextBtn.disabled = false;
+      const item = quizData[quizIndex];
+      [...answersEl.children].forEach((btn, i) => { if (i === item.correct) btn.classList.add('right'); });
+      if (index === item.correct) { score++; button.classList.add('right'); feedbackEl.textContent = '¡Correcto! Tu curiosidad va muy bien ✨'; }
+      else { button.classList.add('wrong'); feedbackEl.textContent = 'Casi. Revisa la explicación de la Unidad 1 y vuelve a intentarlo.'; }
+    }
+    nextBtn.addEventListener('click', () => { quizIndex++; if (quizIndex < quizData.length) renderQuiz(); else { questionEl.textContent = `Terminaste con ${score} de ${quizData.length} respuestas correctas.`; answersEl.innerHTML = ''; feedbackEl.textContent = score >= 4 ? '¡Excelente recorrido, mente curiosa! 💗' : 'Buen comienzo. Cada pregunta abre una nueva puerta ✦'; countEl.textContent = 'Quiz completado'; nextBtn.textContent = 'Repetir quiz'; nextBtn.disabled = false; nextBtn.onclick = () => { quizIndex = 0; score = 0; nextBtn.textContent = 'Siguiente →'; nextBtn.onclick = null; renderQuiz(); }; } });
+    renderQuiz();
+
+    document.getElementById('caseButton').addEventListener('click', (event) => { const answer = document.getElementById('caseAnswer'); const visible = answer.style.display !== 'none'; answer.style.display = visible ? 'none' : 'block'; event.currentTarget.textContent = visible ? 'Ver una posible respuesta' : 'Ocultar respuesta'; });
+    document.getElementById('saveReflection').addEventListener('click', () => { const before = document.getElementById('before').value.trim(); const after = document.getElementById('after').value.trim(); showToast(before && after ? 'Tu reflexión quedó guardada en esta página ✿' : 'Completa las dos partes de tu reflexión ✦'); });
+  </script>
+</body>
+</html>
