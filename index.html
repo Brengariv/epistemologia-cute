@@ -194,6 +194,13 @@
     .objective { display: flex; align-items: flex-start; gap: 12px; margin: 13px 0; color: var(--muted); }
     .objective span { display: inline-grid; place-items: center; flex: 0 0 29px; width: 29px; height: 29px; border-radius: 50%; background: var(--mint); color: #4d8a78; font-weight: 900; font-size: .8rem; }
 
+    .video-section { background: linear-gradient(135deg, rgba(255,240,244,.7), rgba(222,212,245,.36)); }
+    .video-layout { display: grid; grid-template-columns: .78fr 1.22fr; gap: 34px; align-items: center; }
+    .video-copy p { color: var(--muted); font-size: 1.04rem; }
+    .video-note { display: inline-block; margin-top: 14px; padding: 8px 12px; border-radius: 999px; background: #fff0f4; color: var(--rose); font-size: .8rem; font-weight: 800; }
+    .video-frame { overflow: hidden; aspect-ratio: 16 / 9; border-radius: 24px; background: #2c2027; box-shadow: var(--shadow); border: 7px solid rgba(255,255,255,.78); }
+    .video-frame iframe { width: 100%; height: 100%; display: block; border: 0; }
+
     .concepts { background: #fff6f7; }
     .concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
     .concept-card { padding: 23px; min-height: 225px; position: relative; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
@@ -293,7 +300,7 @@
     @keyframes float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-9px) rotate(2deg); } }
 
     @media (max-width: 950px) {
-      .hero-grid, .route-grid, .unit-intro, .reflection { grid-template-columns: 1fr; }
+      .hero-grid, .route-grid, .unit-intro, .reflection, .video-layout { grid-template-columns: 1fr; }
       .hero-art { min-height: 390px; }
       .process-grid { grid-template-columns: repeat(3, 1fr); }
       .step:nth-child(3)::after, .step:nth-child(6)::after { display: none; }
@@ -339,11 +346,11 @@
       <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
       <div class="nav-links">
         <a href="#inicio">Inicio</a>
-        <a href="#programa">Programa</a>
-        <a href="#unidad">Unidad 1</a>
-        <a href="#filosofos">Filósofos</a>
-        <a href="#actividades">Actividades</a>
-        <a href="#reflexion">Cierre</a>
+        <a href="#unidad">El saber</a>
+        <a href="#origen">Tras la verdad</a>
+        <a href="#filosofos">Grandes mentes</a>
+        <a href="#actividades">Pon a prueba tu mente</a>
+        <a href="#reflexion">Reflexiones</a>
       </div>
     </nav>
   </header>
@@ -417,13 +424,27 @@
           </div>
           <div class="objectives">
             <div class="section-kicker">Antes de abrir los libros</div>
-            <h2>Origen del conocimiento</h2>
+            <h2>El saber</h2>
             <p style="color:var(--muted);">Conocer parece algo cotidiano, pero detrás de cada idea hay preguntas, experiencias y decisiones. En esta unidad vamos a mirar ese proceso con más atención.</p>
             <h3>Al terminar podrás…</h3>
             <div class="objective"><span>01</span><div>Explicar qué es la epistemología y qué preguntas intenta responder.</div></div>
             <div class="objective"><span>02</span><div>Diferenciar una opinión, una creencia y un conocimiento fundamentado.</div></div>
             <div class="objective"><span>03</span><div>Relacionar la experiencia y la razón con la construcción del conocimiento.</div></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="video-section" id="video">
+      <div class="container video-layout">
+        <div class="video-copy">
+          <div class="section-kicker">Mira, escucha y piensa</div>
+          <h2>Una pausa para seguir preguntando</h2>
+          <p>Después de conocer las ideas principales, mira este video y relaciona lo que escuches con la pregunta central de la unidad: <strong>¿cómo llegamos a saber lo que sabemos?</strong></p>
+          <span class="video-note">Reproduce el video y anota una idea que te haya llamado la atención ✦</span>
+        </div>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/agdS8O-Xp1U?rel=0" title="Video sobre epistemología y conocimiento" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
       </div>
     </section>
@@ -480,7 +501,7 @@
       <div class="container">
         <div class="section-heading">
           <div class="section-kicker">Una pequeña línea del tiempo</div>
-          <h2>¿De dónde nace el conocimiento?</h2>
+          <h2>Tras la verdad</h2>
           <p>Estas son algunas respuestas que se han construido a lo largo de la historia.</p>
         </div>
         <div class="timeline">
@@ -530,7 +551,7 @@
       <div class="container">
         <div class="section-heading">
           <div class="section-kicker">Pasaporte de filósofos</div>
-          <h2>Personas que hicieron preguntas enormes</h2>
+          <h2>Grandes mentes</h2>
           <p>No todos respondieron igual, y justo por eso sus ideas siguen siendo interesantes.</p>
         </div>
         <div class="philosopher-grid">
@@ -550,13 +571,13 @@
       <div class="container">
         <div class="section-heading">
           <div class="section-kicker">Laboratorio de ideas</div>
-          <h2>Aprende jugando</h2>
+          <h2>Pon a prueba tu mente</h2>
           <p>La teoría también puede tener colores, pistas y un poquito de competencia.</p>
         </div>
         <div class="activity-grid">
           <article class="paper activity-card">
             <h3>🔤 Sopa de letras</h3>
-            <p>Selecciona las letras de una palabra en orden. Las palabras están escondidas de izquierda a derecha, de arriba abajo o en diagonal.</p>
+            <p>Selecciona las letras de una palabra en orden. Las palabras están escondidas de izquierda a derecha o de arriba abajo.</p>
             <div class="word-search">
               <div id="wordGrid" class="word-grid" aria-label="Sopa de letras"></div>
               <div><strong style="color:var(--rose);">Palabras:</strong><ul id="wordList" class="word-list"></ul><button class="btn btn-secondary" id="checkWords">Comprobar</button></div>
@@ -602,7 +623,7 @@
       <div class="container reflection">
         <div class="reflection-copy">
           <div class="section-kicker">Última página de tu diario</div>
-          <h2>Lo que me llevo de esta unidad</h2>
+          <h2>Reflexiones</h2>
           <p>Una mente curiosa no es la que tiene todas las respuestas, sino la que sigue haciendo buenas preguntas.</p>
           <p>Escribe una pequeña reflexión y guarda tus ideas. No hay una respuesta “perfecta”; lo importante es poder explicar lo que piensas.</p>
         </div>
